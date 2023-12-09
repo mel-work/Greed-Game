@@ -30,9 +30,8 @@ async def on_ready():
 # Commands
 @client.tree.command(name="start_game", description="Begin a new game!")
 async def start_game(interaction: discord.Interaction):
-    # Cron job 60 seconds - 
+    # Cronjob 60 seconds - 
     await functions.game_intro(interaction)
-    # message = await interaction.response.send_message(content=f"{interaction.user.mention} started a game of Greed", embed=embed, view=view)
 
     # Begin Game
     # game = Game()
