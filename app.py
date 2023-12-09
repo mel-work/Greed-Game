@@ -4,7 +4,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.app_commands import Choice
-# from game import Game
+import time
 import functions
 
 # Secret Connection
@@ -30,11 +30,7 @@ async def on_ready():
 # Commands
 @client.tree.command(name="start_game", description="Begin a new game!")
 async def start_game(interaction: discord.Interaction):
-    # Cronjob 60 seconds - 
     await functions.game_intro(interaction)
-
-    # Begin Game
-    # game = Game()
 
 
 
