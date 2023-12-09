@@ -2,9 +2,9 @@ from dotenv import load_dotenv
 from dotenv import dotenv_values
 import discord
 from discord import app_commands
-from discord.app_commands import Choice
 from discord.ext import commands
-from discord.ui import Button, View
+from discord.app_commands import Choice
+# from game import Game
 import functions
 
 # Secret Connection
@@ -30,20 +30,13 @@ async def on_ready():
 # Commands
 @client.tree.command(name="start_game", description="Begin a new game!")
 async def start_game(interaction: discord.Interaction):
+    # Cron job 60 seconds - 
+    await functions.game_intro(interaction)
+    # message = await interaction.response.send_message(content=f"{interaction.user.mention} started a game of Greed", embed=embed, view=view)
 
-    timestamp = functions.getUnix()
+    # Begin Game
+    # game = Game()
 
-    embed = discord.Embed(title=f'Game Starting... <t:{timestamp}:R>', description='Press the button below to join!', color=0x00ff00)
-    embed.add_field(name='Players Joined', value=f'{interaction.user.display_name}\nTest\nTest2', inline=False)
-    join = Button(style=discord.ButtonStyle.blurple, label='Join Game!')
-    how_to_play = Button(style=discord.ButtonStyle.green, label='How to Play', url="https://thehobbyts.com/greed-dice-game-rules/")
-    leave_game = Button(style=discord.ButtonStyle.danger, label='Leave Game')
-    view = View()
-    view.add_item(join)
-    view.add_item(how_to_play)
-    view.add_item(leave_game)
-
-    await interaction.response.send_message(content=f"{interaction.user.mention} started a game of Greed", embed=embed, view=view)
 
 
 if __name__ == "__main__":
