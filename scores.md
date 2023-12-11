@@ -11,9 +11,12 @@ Three 5s: 500 points
 Three 6s: 600 points
 
 ## Four or More of a Kind:
-Four of a kind (other than 1s or 5s): The points for a three-of-a-kind multiplied by 2 (e.g., four 2s = 400 points)
+Four of a kind (other than 1s): The points for a three-of-a-kind multiplied by 2 (e.g., four 2s = 400 points)
+Four 1's: 1500
 Five of a kind: The points for a three-of-a-kind multiplied by 4 (e.g., five 3s = 1200 points)
+Five 1's: 2000
 Six of a kind: The points for a three-of-a-kind multiplied by 8 (e.g., six 4s = 3200 points)
+Six 1's: 2500
 
 ## Straights:
 1-6 straight (1, 2, 3, 4, 5, 6): 2000 points
