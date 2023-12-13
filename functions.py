@@ -4,10 +4,11 @@ from discord.ui import Button, View
 import discord
 from app import client
 from game import Game
-from turn import Turn
+from players import Player
 from itertools import chain
 
 roll_button = Button(style=discord.ButtonStyle.success, label='Roll')
+stay_button = Button(style=discord.ButtonStyle.blurple, label="Stay")  
 
 def getUnix():
     """Returns the Unix timestamp for 60 seconds from the time it was created."""
@@ -68,7 +69,7 @@ async def game_intro(ctx):
         await interaction.response.defer()
         # await interaction.response.send_message(content="Starting Game!", ephemeral=True)
         game = Game(player_list, interaction)
-        await game.start_game()
+        await game.begin_game()
 
 
     join.callback = join_callback
@@ -76,30 +77,74 @@ async def game_intro(ctx):
     start.callback = start_callback
     
 async def turn_intro(interaction, player):
+    print("Turn Intro Function Ran!")
     updated_embed = discord.Embed(title=f'{player.name}\'s Turn!', color=0x00ff00)
-    turn = Turn()
     await interaction.message.edit(content='',embed=updated_embed, view=View().add_item(roll_button))
 
     async def roll_callback(interaction):
         if interaction.user.display_name == player.name:
-            roll = turn.roll()
-            await follow_up_turn(interaction, roll, player)
+            roll_result = player.roll(player.dice_to_roll)
             await interaction.response.defer()
+            await result(interaction, player, roll_result)
         else:
             await interaction.response.send_message(content="It's not your turn yet.", ephemeral=True)
 
-    roll_button.callback = roll_callback
+    async def stay_callback(interaction):
+        if interaction.user.display_name == player.name:
+            player.is_turn = False
+            print(f"{player.name} ended turn")
+            await interaction.response.defer()
+        else:
+            await interaction.response.send_message(content="It's not your turn.", ephemeral=True)
 
-async def follow_up_turn(interaction, roll, player):
+
+    roll_button.callback = roll_callback
+    stay_button.callback = stay_callback
+
+async def result(interaction, player, roll_result):
+    print("Result Function Ran!")
     view = View()
-    buttons = [roll_button]
-    for dice in enumerate(roll):
-        button = Button(style=discord.ButtonStyle.blurple, label=str(dice[1]))
-        buttons.append(button)
+    d1 = Button(style=discord.ButtonStyle.blurple, label=str(roll_result[0]))
+    d2 = Button(style=discord.ButtonStyle.blurple, label=str(roll_result[1]))
+    d3 = Button(style=discord.ButtonStyle.blurple, label=str(roll_result[2]))
+    d4 = Button(style=discord.ButtonStyle.blurple, label=str(roll_result[3]))
+    d5 = Button(style=discord.ButtonStyle.blurple, label=str(roll_result[4]))
+    d6 = Button(style=discord.ButtonStyle.blurple, label=str(roll_result[5]))
+    buttons = [d1, d2, d3, d4, d5, d6, roll_button, stay_button]
     for button in buttons:
         view.add_item(button)
     updated_embed = discord.Embed(title=f'{player.name} Rolled!', description= "Select which dice to hold", color=0x00ff00).add_field(
         name="Turn Score", value=f"{player.turn_score}")
     await interaction.message.edit(embed=updated_embed, view=view)
 
+    async def hold_callback1(interaction):
+        d2.disabled = True
+        await interaction.response.defer()
+
+    async def hold_callback2(interaction):
+        d2.disabled = True
+        await interaction.response.defer()
+
+    async def hold_callback3(interaction):
+        d3.disabled = True
+        await interaction.response.defer()
+
+    async def hold_callback4(interaction):
+        d4.disabled = True
+        await interaction.response.defer()
+
+    async def hold_callback5(interaction):
+        d5.disabled = True
+        await interaction.response.defer()
     
+    async def hold_callback6(interaction):
+        d6.disabled = True
+        await interaction.response.defer()
+
+    d1.callback = hold_callback1
+    d2.callback = hold_callback2
+    d3.callback = hold_callback3
+    d4.callback = hold_callback4
+    d5.callback = hold_callback5
+    d6.callback = hold_callback6
+

@@ -9,6 +9,4 @@ class Turn:
     def __init__(self):
         self.quantity = 6
 
-    def roll(self, quantity=6):
-        random_rolls = [[random.randint(1, 6)] for x in range(quantity)]
-        return random_rolls
+

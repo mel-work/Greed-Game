@@ -16,6 +16,27 @@ Once a new game is created, an embed will pop up asking people to click the butt
 
 The game will be in a single embed that updates each round and turn.
 
+## Gameplay
+While the highest score is < 10000,
+    Loop through the players list,
+        While player turn,
+            Player begins turn with 6 dice
+            They roll `n` dice
+                Case 1: Hold and roll
+                    Remove held dice,
+                    Update Score,
+                    Update dice to roll
+                    continue loop
+                Case 2: Hold and Stay
+                    Remove held dice,
+                    Update turn score
+                    Update player score
+                    break
+                Bust
+                    Remove all points gained this round
+                    break
+
+
 ## Commands
 * `/start_game` creates a new game instance
 * `/how_to_play`
